@@ -3,13 +3,13 @@ var elems;
 var counts;
 
 const loadOptions = () => {
-    chrome.runtime.sendMessage({msg: "getOptions"}, (res)=>{
+    chrome.runtime.sendMessage({ msg: "getOptions" }, (res) => {
         options = res;
-        if(options.enabled){
+        if (options.hideEnabled) {
             getSoldouts();
             removeSoldouts();
             writeCount();
-        }        
+        }
     });
 };
 
@@ -18,8 +18,8 @@ const getSoldouts = () => {
     counts = elems.length;
 }
 
-const removeSoldouts = ()=>{
-    document.querySelectorAll('.out-of-stock').forEach((elem,index)=>{
+const removeSoldouts = () => {
+    document.querySelectorAll('.out-of-stock').forEach((elem, index) => {
         elem.parentElement.parentElement.parentElement.parentElement.parentElement.remove()
     });
 };
@@ -29,7 +29,7 @@ const writeCount = () => {
     var newElem = document.createElement('div');
 
     newElem.setAttribute('style', 'color: #0073e9; font-weight:500')
-    newElem.innerHTML =`현재 페이지 <b style="font-weight:800;">${counts}</b> 항목 품절입니다...`
+    newElem.innerHTML = `현재 페이지 <b style="font-weight:800;">${counts}</b> 항목 품절입니다...`
     title.appendChild(newElem);
 }
 

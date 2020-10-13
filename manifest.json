@@ -1,29 +1,36 @@
 {
     "manifest_version": 2,
-    "name": "NoMoreSoldoutCoupang",
-    "version" : "0.0.1",
-    "icons":{
+    "name": "CoupangEnhancer",
+    "version": "0.0.1",
+    "icons": {
         "128": "img/128.png"
     },
-    "permissions":[
+    "permissions": [
         "storage",
-        "activeTab"
+        "activeTab",
+        "webRequest",
+        "webRequestBlocking",
+        "background",
+        "*://www.coupang.com/*"
     ],
-    "description": "Hide Soldout Items from Coupang.com",
-    "browser_action":{
+    "description": "Hide Soldout Items and Show only Rocket delivery Items from Coupang.com",
+    "browser_action": {
         "default_popup": "app/popup.html"
     },
-    "background":{
-        "scripts":["app/background.js"],
-        "presistent": false
-    },
-    "content_scripts":[{
-        "matches":[
-            "*://www.coupang.com/np/*",
-            "*://www.coupang.com/vp/*"
+    "background": {
+        "scripts": [
+            "app/background.js"
         ],
-        "js":[
-            "app/index.js"
-        ]
-    }]
+        "persistent": true
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://www.coupang.com/*"
+            ],
+            "js": [
+                "app/index.js"
+            ]
+        }
+    ]
 }
