@@ -10,7 +10,6 @@
         "activeTab",
         "webRequest",
         "webRequestBlocking",
-        "background",
         "*://www.coupang.com/*"
     ],
     "description": "Hide Soldout Items and Show only Rocket delivery Items from Coupang.com",

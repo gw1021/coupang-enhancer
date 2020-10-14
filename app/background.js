@@ -1,20 +1,23 @@
 'use strict';
 
+var loadFlag = false;
 var backgroundOptions;
 
 chrome.webRequest.onBeforeRequest.addListener(
     details => {
-        if (backgroundOptions.rocketEnabled) {
-            const url = new URL(details.url);
-            const params = new URLSearchParams(url.search);
-            params.set('filterType', 'rocket_wow');
-            params.set('rocketAll', 'true');
-            return {
-                redirectUrl: `${url.origin}${url.pathname}?${params}`
+        if (loadFlag) {
+            if (backgroundOptions.rocketEnabled) {
+                const url = new URL(details.url);
+                const params = new URLSearchParams(url.search);
+                params.set('filterType', 'rocket_wow%2Ccoupang_global');
+                params.set('rocketAll', 'true');
+                return {
+                    redirectUrl: `${url.origin}${url.pathname}?${params}`
+                }
             }
-        }
-        else {
-            return { redirectUrl: details.url }
+            else {
+                return { redirectUrl: details.url }
+            }
         }
     },
     { urls: ["*://www.coupang.com/np/search*", "*://www.coupang.com/np/categories/*"] },
@@ -35,14 +38,16 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
                     options["rocketEnabled"] = true;
 
                     jsonObj["options"] = options;
-                    backgroundOptions = options;
 
                     chrome.storage.sync.set(jsonObj, () => {
+                        loadFlag = true;
+                        backgroundOptions = options;
                         sendResponse(options);
                     });
                 } else {
-                    sendResponse(res["options"]);
+                    loadFlag = true;
                     backgroundOptions = res["options"];
+                    sendResponse(res["options"]);
                 }
             });
             break;
@@ -60,7 +65,8 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
             });
             break;
         default:
-            console.log(req.msg);
+            // console.log(req.msg);
+            break
 
     }
     return true;

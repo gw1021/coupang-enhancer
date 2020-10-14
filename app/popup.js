@@ -20,7 +20,7 @@ const getOptions = () => {
 
 const setOptions = () => {
     chrome.runtime.sendMessage({ msg: 'setOptions', 'data': options }, (res) => {
-        console.log(res);
+        // console.log(res);
         if (res) {
             reloadPage();
         }
@@ -28,7 +28,7 @@ const setOptions = () => {
 }
 
 document.addEventListener('change', (evt) => {
-    console.log(evt.target);
+    // console.log(evt.target);
     if (evt.target == document.getElementById("EnableHideCheckBox")) {
         options["hideEnabled"] = document.getElementById("EnableHideCheckBox").checked;
         setOptions();
